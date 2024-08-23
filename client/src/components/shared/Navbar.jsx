@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { AvatarImage } from "@radix-ui/react-avatar";
@@ -7,9 +7,8 @@ import { Button } from "../ui/button";
 import { LogOut, User2 } from "lucide-react";
 import axios from "axios";
 
-
 const Navbar = () => {
-  
+    const user = JSON.parse(localStorage.getItem("user"));
 
     return (
         <div>
@@ -41,24 +40,25 @@ const Navbar = () => {
 
                                         <div>
                                             <h4 className="font-medium">
-                                                firstName LastName
+                                                {user.name}
                                             </h4>
                                             <p className="text-sm text-muted-foreground">
-                                                Lorem, ipsum dolor sit amet
+                                                {user.bio}
                                             </p>
                                         </div>
                                     </div>
 
                                     <div className="my-3 mx-1">
                                         <div className="flex items-center">
-                                            <User2/>
-                                        <Button variant="link">View Profile</Button>
+                                            <User2 />
+                                            <Button variant="link">
+                                                View Profile
+                                            </Button>
                                         </div>
                                         <div className="flex items-center">
-                                            <LogOut/>
-                                        <Button variant="link">Logout</Button>
+                                            <LogOut />
+                                            <Button variant="link"></Button>
                                         </div>
-                                        
                                     </div>
                                 </PopoverContent>
                             </Popover>

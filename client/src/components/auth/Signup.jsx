@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
+import { Textarea } from "../ui/textarea";
 
 const Signup = () => {
     const [input, setInput] = useState({
@@ -14,6 +15,7 @@ const Signup = () => {
         email: "",
         password: "",
         phone: "",
+        bio: "",
     });
     const navigate = useNavigate();
 
@@ -138,6 +140,16 @@ const Signup = () => {
                                 placeholder="Phone"
                                 type="Number"
                                 value={input.phone}
+                                onChange={eventHandler}
+                            />
+                        </div>
+                        <div className="my-4 flex flex-col gap-3">
+                            <Label>Bio</Label>
+                            <Textarea
+                                name="bio"
+                                placeholder="Bio"
+                                type="text"
+                                value={input.bio}
                                 onChange={eventHandler}
                             />
                         </div>

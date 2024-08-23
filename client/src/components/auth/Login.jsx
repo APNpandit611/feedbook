@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
 
-const Signup = () => {
+const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -33,7 +33,9 @@ const Signup = () => {
                 },
                 withCredentials: true,
             });
+            
             if (res.data.success) {
+                localStorage.setItem('user', JSON.stringify(res.data.user))
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -84,7 +86,7 @@ const Signup = () => {
     return (
         <div>
             <div className=" my-10">
-                <Header/>
+                <Header />
                 <div className="flex justify-center mx-auto max-w-7xl max-h-full">
                     <form
                         onSubmit={submitHandler}
@@ -137,4 +139,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Login;

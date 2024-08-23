@@ -5,7 +5,7 @@ import cookie from "cookie-parser"
 
 export const register = async (req, res) => {
     try {
-        const {name, email, password, phone} = req.body
+        const {name, email, password, phone, bio=''} = req.body
         if (!name || !email || !password || !phone){
             return res.status(400).json({
                 message:"all fields are required",
@@ -27,7 +27,8 @@ export const register = async (req, res) => {
             name,
             email,
             password:hashedPassword,
-            phone
+            phone,
+            bio
         })
 
         return res.status(201).json({
@@ -72,7 +73,8 @@ export const login = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            phone: user.phone
+            phone: user.phone,
+            bio: user.bio
         }
 
         const token = jwt.sign(tokenData, process.env.SECRET_KEY, {expiresIn:"1d"})
@@ -101,7 +103,7 @@ export const logout = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const {name, password, email, phone} = req.body
+        const {name, password, email, phone, bio} = req.body
         const userId = req.id
 
         let user = await User.findById(userId)
@@ -116,6 +118,7 @@ export const update = async (req, res) => {
         if (password) user.password = await bcrypt.hash(password, 10)
         if (email) user.email = email
         if (phone) user.phone = phone
+        if (bio !== undefined) user.bio = bio
 
         await user.save()
 
@@ -124,7 +127,8 @@ export const update = async (req, res) => {
             name: user.name,
             password: user.password,
             email: user.email,
-            phone: user.phone
+            phone: user.phone,
+            bio: user.bio
         }
 
         return res.status(200).json({
