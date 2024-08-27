@@ -36,6 +36,7 @@ const Login = () => {
             
             if (res.data.success) {
                 localStorage.setItem('user', JSON.stringify(res.data.user))
+                
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -131,6 +132,7 @@ const Login = () => {
                             <Link to="/signup" className="text-[#202ef0]">
                                 Signup!
                             </Link>
+
                         </span>
                     </form>
                 </div>

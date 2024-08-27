@@ -1,14 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { LogOut, User2 } from "lucide-react";
 import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
 
 const Navbar = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem('user'));
+    const navigate = useNavigate()
+
+    const logoutHandler = async(e) => {
+        e.preventDefault();
+
+        try {
+            const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            });
+
+            if (res.data.success) {
+                localStorage.removeItem('user');
+                navigate("/")
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error("An error occurred during logout. Please try again.");
+        }
+    }
 
     return (
         <div>
@@ -57,7 +82,7 @@ const Navbar = () => {
                                         </div>
                                         <div className="flex items-center">
                                             <LogOut />
-                                            <Button variant="link"></Button>
+                                            <Button variant="link" onClick={logoutHandler}>Logout</Button>
                                         </div>
                                     </div>
                                 </PopoverContent>
