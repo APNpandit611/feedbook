@@ -15,7 +15,6 @@ const Signup = () => {
         email: "",
         password: "",
         phone: "",
-        bio: "",
     });
     const navigate = useNavigate();
 
@@ -143,23 +142,13 @@ const Signup = () => {
                                 onChange={eventHandler}
                             />
                         </div>
-                        <div className="my-4 flex flex-col gap-3">
-                            <Label>Bio</Label>
-                            <Textarea
-                                name="bio"
-                                placeholder="Bio"
-                                type="text"
-                                value={input.bio}
-                                onChange={eventHandler}
-                            />
-                        </div>
                         <div className="my-4">
                             <Button
                                 className="bg-[#202020] text-white w-full"
                                 type="submit"
                                 variant="outline"
                             >
-                                Submit
+                                Signup
                             </Button>
                         </div>
                         <span className="text-sm ">

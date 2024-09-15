@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -7,13 +7,49 @@ import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
+import { GoogleLogin, useGoogleLogin, googleLogout } from "@react-oauth/google";
 
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: "",
+    });const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
+
+    const login = useGoogleLogin({
+        onSuccess: (tokenResponse) => {
+            console.log("Token response:", tokenResponse);
+            setUser(tokenResponse);
+        },
+        onError: (error) => console.log('Login Failed:', error)
     });
-    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user?.access_token) {
+            axios
+                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.access_token}`,
+                        Accept: 'application/json',
+                    },
+                })
+                .then((res) => {
+                    setProfile(res.data);
+                    // Save the Google user data to localStorage
+                    localStorage.setItem('googleUser', JSON.stringify(res.data));
+                    navigate("/home");
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [user]);
+
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+        localStorage.removeItem('googleUser');
+    };
+    
 
     const eventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -33,10 +69,10 @@ const Login = () => {
                 },
                 withCredentials: true,
             });
-            
+
             if (res.data.success) {
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-                
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -124,7 +160,16 @@ const Login = () => {
                                 type="submit"
                                 variant="outline"
                             >
-                                Submit
+                                Login
+                            </Button>
+                        </div>
+                        <div className="my-4">
+                            <Button
+                                className="bg-[white] text-black w-full"
+                                onClick={() => login()}
+                                variant="outline"
+                            >
+                                Sign in with Google
                             </Button>
                         </div>
                         <span className="text-sm ">
@@ -132,7 +177,6 @@ const Login = () => {
                             <Link to="/signup" className="text-[#202ef0]">
                                 Signup!
                             </Link>
-
                         </span>
                     </form>
                 </div>

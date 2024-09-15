@@ -10,7 +10,9 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 
 const Navbar = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    // const user = JSON.parse(localStorage.getItem('user'));
+    const guser = JSON.parse(localStorage.getItem('googleUser'));
+    
     const navigate = useNavigate()
 
     const logoutHandler = async(e) => {
