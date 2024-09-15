@@ -8,48 +8,68 @@ import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
 import { GoogleLogin, useGoogleLogin, googleLogout } from "@react-oauth/google";
-
+import { jwtDecode } from "jwt-decode";
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: "",
-    });const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-    const [profile, setProfile] = useState(null);
-
-    const login = useGoogleLogin({
-        onSuccess: (tokenResponse) => {
-            console.log("Token response:", tokenResponse);
-            setUser(tokenResponse);
-        },
-        onError: (error) => console.log('Login Failed:', error)
     });
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (user?.access_token) {
-            axios
-                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                    headers: {
-                        Authorization: `Bearer ${user.access_token}`,
-                        Accept: 'application/json',
-                    },
-                })
-                .then((res) => {
-                    setProfile(res.data);
-                    // Save the Google user data to localStorage
-                    localStorage.setItem('googleUser', JSON.stringify(res.data));
-                    navigate("/home");
-                })
-                .catch((err) => console.log(err));
-        }
-    }, [user]);
+    // const handleGoogleLogin = async (response) => {
+    //     const idToken = response.credential;
+    //     const decoded = jwtDecode(idToken);
+    //     console.log(decoded);
+    //     try {
+    //         const res = await axios.post(`${USER_API_END_POINT}/googleLogin`, {
+    //             idToken,
+    //         });
 
-    const logOut = () => {
-        googleLogout();
-        setProfile(null);
-        localStorage.removeItem('googleUser');
-    };
-    
+    //         console.log(decoded.email);
+    //         if (res.data.success) {
+    //             localStorage.setItem("user", JSON.stringify(res.data.user));
+    //             // navigate("/home");
+    //             toast.success(res.data.message);
+    //             console.log(res.data);
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.response.data.message);
+    //         console.log(error);
+    //     }
+    // };
+
+    // const login = useGoogleLogin({
+    //     onSuccess: (tokenResponse) => {
+    //         console.log("Token response:", tokenResponse);
+    //         setUser(tokenResponse);
+    //     },
+    //     onError: (error) => console.log('Login Failed:', error)
+    // });
+
+    // useEffect(() => {
+    //     if (user?.access_token) {
+    //         axios
+    //             .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${user.access_token}`,
+    //                     Accept: 'application/json',
+    //                 },
+    //             })
+    //             .then((res) => {
+    //                 setProfile(res.data);
+    //                 // Save the Google user data to localStorage
+    //                 localStorage.setItem('googleUser', JSON.stringify(res.data));
+    //                 navigate("/home");
+    //             })
+    //             .catch((err) => console.log(err));
+    //     }
+    // }, [user]);
+
+    // const logOut = () => {
+    //     googleLogout();
+    //     setProfile(null);
+    //     localStorage.removeItem('googleUser');
+    // };
 
     const eventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -78,6 +98,7 @@ const Login = () => {
             }
         } catch (error) {
             toast.error(error.response.data.message);
+            console.log(error.response.data.message);
         }
     };
 
@@ -163,7 +184,7 @@ const Login = () => {
                                 Login
                             </Button>
                         </div>
-                        <div className="my-4">
+                        {/* <div className="my-4">
                             <Button
                                 className="bg-[white] text-black w-full"
                                 onClick={() => login()}
@@ -171,7 +192,26 @@ const Login = () => {
                             >
                                 Sign in with Google
                             </Button>
+                        </div> */}
+                        {/* <div className="my-4">
+                            <GoogleLogin
+                                onSuccess={handleGoogleLogin}
+                                onError={(error) =>
+                                    console.log("Google Login Error:", error)
+                                }
+                            />
+                        </div> */}
+                        <div className="my-4">
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => {
+                                    console.log("login Success:", credentialResponse);
+                                }}
+                                onError={() => {
+                                    console.log("Login Failed");
+                                }}
+                            />
                         </div>
+
                         <span className="text-sm ">
                             Dont have an account?{" "}
                             <Link to="/signup" className="text-[#202ef0]">

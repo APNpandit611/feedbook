@@ -11,15 +11,16 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
     },
     phone:{
         type:Number,
-        required:true
     },
     bio:{
         type:String,
         default:""
+    },
+    googleId:{
+        type:String
     }
     
 },{ timestamps:true })
