@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.post("/register", register)
 route.post("/login", login)
-route.get("/googleLogin", googleLogin)
+route.post("/googleLogin", googleLogin)
 route.put("/update", isAuth, update)
 route.get("/logout", isAuth, logout)
 

@@ -7,8 +7,9 @@ import axios from "axios";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
-import { GoogleLogin, useGoogleLogin, googleLogout } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
@@ -92,7 +93,34 @@ const Login = () => {
 
             if (res.data.success) {
                 localStorage.setItem("user", JSON.stringify(res.data.user));
+                localStorage.setItem("mode", "API_ROUTE")
+                navigate("/home");
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response.data.message);
+            console.log(error.response.data.message);
+        }
+    };
 
+    const googleLoginSuccess = async (credentialResponse) => {
+        const { credential } = credentialResponse;
+
+        try {
+            const res = await axios.post(
+                `${USER_API_END_POINT}/googleLogin`,
+                { token: credential },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+
+            if (res.data.success) {
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                localStorage.setItem("mode", "GOOGLE")
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -187,29 +215,26 @@ const Login = () => {
                         {/* <div className="my-4">
                             <Button
                                 className="bg-[white] text-black w-full"
-                                onClick={() => login()}
+                                
+                                onClick={() => googleLoginSuccess()}
                                 variant="outline"
                             >
                                 Sign in with Google
                             </Button>
-                        </div> */}
-                        {/* <div className="my-4">
-                            <GoogleLogin
-                                onSuccess={handleGoogleLogin}
-                                onError={(error) =>
-                                    console.log("Google Login Error:", error)
-                                }
-                            />
-                        </div> */}
+                        </div>
+                         */}
                         <div className="my-4">
-                            <GoogleLogin
-                                onSuccess={(credentialResponse) => {
-                                    console.log("login Success:", credentialResponse);
-                                }}
-                                onError={() => {
-                                    console.log("Login Failed");
-                                }}
-                            />
+                                <GoogleLogin
+                                
+                                    onSuccess={(credentialResponse) => {
+                                        googleLoginSuccess(credentialResponse);
+                                    }}
+                                    onError={() => {
+                                        toast.error("login failed");
+                                        console.log("Login Failed");
+                                    }}
+                                />
+
                         </div>
 
                         <span className="text-sm ">

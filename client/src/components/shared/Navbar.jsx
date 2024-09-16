@@ -8,34 +8,45 @@ import { LogOut, User2 } from "lucide-react";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { googleLogout } from "@react-oauth/google";
 
 const Navbar = () => {
     // const user = JSON.parse(localStorage.getItem('user'));
-    const guser = JSON.parse(localStorage.getItem('googleUser'));
-    
-    const navigate = useNavigate()
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const logoutHandler = async(e) => {
+    const navigate = useNavigate();
+
+    const logoutHandler = async (e) => {
         e.preventDefault();
-
+        const loginMode = localStorage.getItem("mode");
         try {
-            const res = await axios.get(`${USER_API_END_POINT}/logout`, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true,
-            });
-
-            if (res.data.success) {
-                localStorage.removeItem('user');
-                navigate("/")
-                toast.success(res.data.message)
+            if (loginMode === "GOOGLE") {
+                googleLogout();
+                localStorage.removeItem("mode");
+                navigate("/");
+                toast.success("logged out successfully");
+            } else {
+                const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                });
+                localStorage.removeItem("user");
+                navigate("/");
+                toast.success(res.data.message);
             }
+
+            // if (res.data.success) {
+            //     localStorage.removeItem("user");
+            //     navigate("/");
+            //     toast.success(res.data.message);
+            // }
         } catch (error) {
-            console.log(error)
+            console.log(error);
             toast.error("An error occurred during logout. Please try again.");
         }
-    }
+    };
 
     return (
         <div>
@@ -84,7 +95,12 @@ const Navbar = () => {
                                         </div>
                                         <div className="flex items-center">
                                             <LogOut />
-                                            <Button variant="link" onClick={logoutHandler}>Logout</Button>
+                                            <Button
+                                                variant="link"
+                                                onClick={logoutHandler}
+                                            >
+                                                Logout
+                                            </Button>
                                         </div>
                                     </div>
                                 </PopoverContent>

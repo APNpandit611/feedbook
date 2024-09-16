@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie-parser";
 import { OAuth2Client } from "google-auth-library";
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client();
 
 export const register = async (req, res) => {
     try {
@@ -105,28 +105,25 @@ export const login = async (req, res) => {
 
 export const googleLogin = async (req, res) => {
     try {
-        const { idToken } = req.body;
+        const token = req.body.token;
+
         const ticket = await client.verifyIdToken({
-            idToken,
+            idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const { sub: googleId, name, email } = ticket.getPayload();
-        console.log(email)
 
         let user = await User.findOne({ googleId });
 
         if (!user) {
             user = await User.create({
-                name: payload.name,
-                email: payload.email,
-                googleId: payload.sub,
+                name,
+                email,
+                googleId,
             });
-            console.log(user);
         }
 
-        res.set("httpsOnly", true);
-        res.set("sameSite", "strict");
-        res.json({
+        res.status(200).json({
             message: `Welcome Back ${user.name}`,
             user,
             success: true,
