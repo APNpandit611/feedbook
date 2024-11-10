@@ -1,11 +1,11 @@
 import React from 'react'
-import Signup from '../auth/Signup'
+import Login from '../auth/Login'
 
 const Landing = () => {
   return (
     <div>
       <div className=''>
-        <Signup/>
+        <Login/>
       </div>
     </div>
   )

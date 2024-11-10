@@ -97,7 +97,7 @@ const Signup = () => {
                     <div></div>
                     <form
                         onSubmit={submitHandler}
-                        className="w-1/2 border border-gray-300 rounded-md px-8 py-6 my-10 "
+                        className="w-full md:max-2xl:w-1/2 border border-gray-300 rounded-md px-8 py-6 my-10 "
                     >
                         <h1 className="font-bold text-xl mb-5 underline text-center">
                             SignUp

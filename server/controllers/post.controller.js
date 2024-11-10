@@ -1,4 +1,5 @@
 import { UserPost } from "../models/post.model.js";
+import { User } from "../models/user.model.js";
 
 export const userPost = async (req, res) => {
     try {
@@ -31,8 +32,11 @@ export const getPosts = async (req, res) => {
         //         {title: {$regex: keyword, $options: 'i'}},
         //     ]
         // }
-        const userId = req.id;
-        const posts = await UserPost.find({ createdBy: userId });
+        // const userId = req.id;
+        // const posts = await UserPost.find({ createdBy: userId });
+
+        const posts = await UserPost.find({}).populate("createdBy", "name email")        
+        // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
                 message: "No posts found",

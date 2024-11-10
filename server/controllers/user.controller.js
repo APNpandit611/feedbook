@@ -124,7 +124,7 @@ export const googleLogin = async (req, res) => {
         }
 
         res.status(200).json({
-            message: `Welcome Back ${user.name}`,
+            message: `Welcome ${user.name}`,
             user,
             success: true,
         });

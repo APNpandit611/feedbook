@@ -93,7 +93,7 @@ const Login = () => {
 
             if (res.data.success) {
                 localStorage.setItem("user", JSON.stringify(res.data.user));
-                localStorage.setItem("mode", "API_ROUTE")
+                localStorage.setItem("mode", "API_ROUTE");
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -105,7 +105,6 @@ const Login = () => {
 
     const googleLoginSuccess = async (credentialResponse) => {
         const { credential } = credentialResponse;
-
         try {
             const res = await axios.post(
                 `${USER_API_END_POINT}/googleLogin`,
@@ -120,7 +119,7 @@ const Login = () => {
 
             if (res.data.success) {
                 localStorage.setItem("user", JSON.stringify(res.data.user));
-                localStorage.setItem("mode", "GOOGLE")
+                localStorage.setItem("mode", "GOOGLE");
                 navigate("/home");
                 toast.success(res.data.message);
             }
@@ -173,10 +172,10 @@ const Login = () => {
         <div>
             <div className=" my-10">
                 <Header />
-                <div className="flex justify-center mx-auto max-w-7xl max-h-full">
+                <div className="flex justify-center max-h-full">
                     <form
                         onSubmit={submitHandler}
-                        className="w-1/2 border border-gray-300 rounded-md px-8 py-6 my-10"
+                        className="w-full md:max-2xl:w-1/2 border border-gray-300 rounded-md px-8 py-6 my-10 mx-10"
                     >
                         <h1 className="font-bold text-xl mb-5 underline text-center">
                             Login
@@ -215,26 +214,23 @@ const Login = () => {
                         {/* <div className="my-4">
                             <Button
                                 className="bg-[white] text-black w-full"
-                                
-                                onClick={() => googleLoginSuccess()}
+                                onClick={()=>login()}
                                 variant="outline"
                             >
                                 Sign in with Google
                             </Button>
-                        </div>
-                         */}
-                        <div className="my-4">
-                                <GoogleLogin
-                                
-                                    onSuccess={(credentialResponse) => {
-                                        googleLoginSuccess(credentialResponse);
-                                    }}
-                                    onError={() => {
-                                        toast.error("login failed");
-                                        console.log("Login Failed");
-                                    }}
-                                />
+                        </div> */}
 
+                        <div className="my-4">
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => {
+                                    googleLoginSuccess(credentialResponse);
+                                }}
+                                onError={() => {
+                                    toast.error("login failed");
+                                    console.log("Login Failed");
+                                }}
+                            />
                         </div>
 
                         <span className="text-sm ">

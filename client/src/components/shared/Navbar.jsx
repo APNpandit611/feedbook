@@ -9,6 +9,7 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { googleLogout } from "@react-oauth/google";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
     // const user = JSON.parse(localStorage.getItem('user'));
@@ -52,12 +53,15 @@ const Navbar = () => {
         <div>
             <div className="border-b-2 border-indigo-500 flex item-center justify-between px-7 py-4">
                 <div className="text-2xl font-bold">Feedbook</div>
+                <SearchBar />
+
                 <div>
                     <div>
                         <ul className="flex items-center gap-9 font-medium">
-                            <Link to="/">
+                            <Link to="/home">
                                 <li>Home</li>
                             </Link>
+
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Avatar className="cursor-pointer">
