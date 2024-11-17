@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import { FcGoogle } from "react-icons/fc";
+
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -103,31 +104,69 @@ const Login = () => {
         }
     };
 
-    const googleLoginSuccess = async (credentialResponse) => {
-        const { credential } = credentialResponse;
-        try {
-            const res = await axios.post(
-                `${USER_API_END_POINT}/googleLogin`,
-                { token: credential },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    withCredentials: true,
+    const googleLoginSuccess = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const accessToken = tokenResponse.access_token;
+                // Fetch the user info from Google
+                const response = await fetch(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
+                const userInfo = await response.json();
+ 
+                const res = await axios.post(
+                    `${USER_API_END_POINT}/googleLogin`,
+                    userInfo,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        withCredentials: true,
+                    }
+                );
+                if (res.data.success) {
+                    localStorage.setItem("user", JSON.stringify(res.data.user));
+                    localStorage.setItem("mode", "GOOGLE");
+                    navigate("/home");
+                    toast.success(res.data.message);
                 }
-            );
-
-            if (res.data.success) {
-                localStorage.setItem("user", JSON.stringify(res.data.user));
-                localStorage.setItem("mode", "GOOGLE");
-                navigate("/home");
-                toast.success(res.data.message);
+            } catch (error) {
+                toast.error(error.response.data.message);
+                console.log(error.response.data.message);
             }
-        } catch (error) {
-            toast.error(error.response.data.message);
-            console.log(error.response.data.message);
-        }
-    };
+        },
+    });
+
+    // const googleLoginSuccess = async (credentialResponse) => {
+    //     const { credential } = credentialResponse;
+    //     try {
+    //         const res = await axios.post(
+    //             `${USER_API_END_POINT}/googleLogin`,
+    //             { token: credential },
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 withCredentials: true,
+    //             }
+    //         );
+
+    //         if (res.data.success) {
+    //             localStorage.setItem("user", JSON.stringify(res.data.user));
+    //             localStorage.setItem("mode", "GOOGLE");
+    //             navigate("/home");
+    //             toast.success(res.data.message);
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.response.data.message);
+    //         console.log(error.response.data.message);
+    //     }
+    // };
 
     // const submitHandler = async (e) => {
     //     e.preventDefault();
@@ -211,35 +250,39 @@ const Login = () => {
                                 Login
                             </Button>
                         </div>
-                        {/* <div className="my-4">
-                            <Button
-                                className="bg-[white] text-black w-full"
-                                onClick={()=>login()}
-                                variant="outline"
-                            >
-                                Sign in with Google
-                            </Button>
-                        </div> */}
-
-                        <div className="my-4">
-                            <GoogleLogin
-                                onSuccess={(credentialResponse) => {
-                                    googleLoginSuccess(credentialResponse);
-                                }}
-                                onError={() => {
-                                    toast.error("login failed");
-                                    console.log("Login Failed");
-                                }}
-                            />
-                        </div>
-
+                        
                         <span className="text-sm ">
                             Dont have an account?{" "}
                             <Link to="/signup" className="text-[#202ef0]">
                                 Signup!
                             </Link>
                         </span>
+                        
+                        <div className="my-4">
+                            <Button
+                                className="bg-[#202020] text-white w-full"
+                                onClick={()=>googleLoginSuccess()}
+                                variant="outline"
+                                type="button"
+                            >
+                                <FcGoogle className="mx-2"/>
+                                Sign in with Google
+                            </Button>
+                        </div>
                     </form>
+                    
+
+                    {/* <div className="my-4">
+                        <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                googleLoginSuccess(credentialResponse);
+                            }}
+                            onError={() => {
+                                toast.error("login failed");
+                                console.log("Login Failed");
+                            }}
+                        />
+                    </div> */}
                 </div>
             </div>
         </div>

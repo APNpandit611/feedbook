@@ -105,13 +105,13 @@ export const login = async (req, res) => {
 
 export const googleLogin = async (req, res) => {
     try {
-        const token = req.body.token;
-
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        const { sub: googleId, name, email } = ticket.getPayload();
+        // const token = req.body.token;
+        // const ticket = await client.verifyIdToken({
+        //     idToken: token,
+        //     audience: process.env.GOOGLE_CLIENT_ID,
+        // });
+        // const { sub: googleId, name, email, picture } = ticket.getPayload();
+        const { sub:googleId, name, email, picture } = req.body
 
         let user = await User.findOne({ googleId });
 
@@ -120,6 +120,7 @@ export const googleLogin = async (req, res) => {
                 name,
                 email,
                 googleId,
+                picture
             });
         }
 
