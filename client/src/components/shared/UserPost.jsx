@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]);
     const [loading, setLoading] = useState(false);
-    const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         const fetchUserPost = async () => {
@@ -46,7 +46,7 @@ const UserPost = () => {
                             <Avatar className="cursor-pointer">
                                 <AvatarImage
                                     src={
-                                        user.picture ??
+                                        post.createdBy.picture ||
                                         "https://github.com/shadcn.png"
                                     }
                                     alt="@shadcn"

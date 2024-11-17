@@ -35,7 +35,7 @@ export const getPosts = async (req, res) => {
         // const userId = req.id;
         // const posts = await UserPost.find({ createdBy: userId });
 
-        const posts = await UserPost.find({}).populate("createdBy", "name email")        
+        const posts = await UserPost.find({}).populate("createdBy", "name email picture")        
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({

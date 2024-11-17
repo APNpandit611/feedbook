@@ -124,11 +124,31 @@ export const googleLogin = async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            message: `Welcome ${user.name}`,
-            user,
-            success: true,
+        const tokenData = { userID: user._id }; // Payload for JWT
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+            expiresIn: "1d",
         });
+
+        const userResponse = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            picture: user.picture,
+        };
+
+        // Send the token as a cookie
+        return res
+            .status(200)
+            .cookie("token", token, {
+                maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+                httpOnly: true,
+                sameSite: "strict",
+            })
+            .json({
+                message: `Welcome ${user.name}`,
+                user: userResponse,
+                success: true,
+            });
     } catch (error) {
         console.log(error);
         res.status(500).json({
