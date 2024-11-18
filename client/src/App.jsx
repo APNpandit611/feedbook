@@ -4,6 +4,7 @@ import Landing from "./components/shared/Landing";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
+import ViewPost from "./components/ViewPost";
 
 
 const appRouter = createBrowserRouter([
@@ -23,6 +24,10 @@ const appRouter = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
     },
+    {
+        path: "/post/detail/:id",
+        element: <ViewPost/>
+    }
 ]);
 
 function App() {

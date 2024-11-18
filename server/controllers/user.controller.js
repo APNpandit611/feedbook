@@ -135,7 +135,6 @@ export const googleLogin = async (req, res) => {
             email: user.email,
             picture: user.picture,
         };
-
         // Send the token as a cookie
         return res
             .status(200)
