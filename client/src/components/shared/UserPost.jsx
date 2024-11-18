@@ -70,12 +70,20 @@ const UserPost = () => {
                             </div>
                         </div>
                         <div>
-                            <ThreeDots postId={post._id}/>
+                            <ThreeDots postId={post._id} />
                         </div>
                     </div>
 
                     <div className="py-1 px-3">{post.status}</div>
-                    <div><img src={post.picture} alt="profile" /></div>
+                    {post.picture ? (
+                        <div className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
+                            <img
+                                src={post.picture}
+                                alt="post image"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    ) : null}
                 </div>
             ))}
         </div>

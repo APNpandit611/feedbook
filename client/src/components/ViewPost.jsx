@@ -4,7 +4,6 @@ import Spinner from "./shared/Spinner";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-
 const ViewPost = () => {
     const [post, setPost] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -15,13 +14,15 @@ const ViewPost = () => {
             setLoading(true);
             try {
                 const res = await axios.get(
-                    `${USER_POST_API_END_POINT}/get/${id}`,{
+                    `${USER_POST_API_END_POINT}/get/${id}`,
+                    {
                         headers: {
-                            'Content-Type': 'application/json',
-                        },withCredentials:true
+                            "Content-Type": "application/json",
+                        },
+                        withCredentials: true,
                     }
                 );
-                setPost(res.data.post)                
+                setPost(res.data.post);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -39,7 +40,7 @@ const ViewPost = () => {
                 <div className="">
                     <span className="text-lg mr-4">Post Id:</span>
                     <span>{post._id}</span>
-                </div> 
+                </div>
                 <div>
                     <span className="text-lg mr-4">Status:</span>
                     <span>{post.status}</span>
@@ -66,7 +67,14 @@ const ViewPost = () => {
                             year: "numeric",
                         })}
                     </span>
-                </div> 
+                </div>
+                <div className="w-1/3 h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
+                    <img
+                        src={post.picture}
+                        alt="post image"
+                        className="object-cover"
+                    />
+                </div>
             </div>
         </div>
     );
