@@ -3,11 +3,13 @@ import { USER_POST_API_END_POINT } from "@/utils/constant";
 import Spinner from "./shared/Spinner";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ViewPost = () => {
     const [post, setPost] = useState([]);
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const user = useSelector((store) => store.user.user);
 
     useEffect(() => {
         const getPost = async () => {

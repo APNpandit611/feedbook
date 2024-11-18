@@ -9,6 +9,8 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import Header from "../shared/Header";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/userSlice"
 
 
 const Login = () => {
@@ -17,7 +19,7 @@ const Login = () => {
         password: "",
     });
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     // const handleGoogleLogin = async (response) => {
     //     const idToken = response.credential;
     //     const decoded = jwtDecode(idToken);
@@ -93,10 +95,11 @@ const Login = () => {
             });
 
             if (res.data.success) {
-                localStorage.setItem("user", JSON.stringify(res.data.user));
-                localStorage.setItem("mode", "API_ROUTE");
-                navigate("/home");
+                // localStorage.setItem("user", JSON.stringify(res.data.user));
+                // localStorage.setItem("mode", "API_ROUTE");
+                dispatch(login({user:res.data.user, mode:"APP"}))
                 toast.success(res.data.message);
+                navigate("/home");
             }
         } catch (error) {
             toast.error(error.response.data.message);
@@ -130,8 +133,7 @@ const Login = () => {
                     }
                 );
                 if (res.data.success) {
-                    localStorage.setItem("user", JSON.stringify(res.data.user));
-                    localStorage.setItem("mode", "GOOGLE");
+                    dispatch(login({user:res.data.user, mode:"GOOGLE"}))
                     navigate("/home");
                     toast.success(res.data.message);
                 }

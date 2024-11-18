@@ -10,20 +10,22 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { googleLogout } from "@react-oauth/google";
 import SearchBar from "./SearchBar";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     // const user = JSON.parse(localStorage.getItem('user'));
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const user = JSON.parse(localStorage.getItem("user"));
+    const user = useSelector((store)=>store.user.user)
+    const mode = useSelector((store)=>store.user.mode)
 
     const navigate = useNavigate();
 
     const logoutHandler = async (e) => {
         e.preventDefault();
-        const loginMode = localStorage.getItem("mode");
         try {
-            if (loginMode === "GOOGLE") {
+            if (mode === "GOOGLE") {
                 googleLogout();
-                localStorage.removeItem("mode");
+                // localStorage.removeItem("mode");
                 navigate("/");
                 toast.success("logged out successfully");
             } else {
@@ -33,7 +35,7 @@ const Navbar = () => {
                     },
                     withCredentials: true,
                 });
-                localStorage.removeItem("user");
+                // localStorage.removeItem("user");
                 navigate("/");
                 toast.success(res.data.message);
             }

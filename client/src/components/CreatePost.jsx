@@ -5,9 +5,12 @@ import axios from "axios";
 import { USER_POST_API_END_POINT } from "@/utils/constant.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
+
 
 const CreatePost = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const user = JSON.parse(localStorage.getItem("user"));
+    const user = useSelector((store)=>store.user.user)
     const [input, setInput] = useState({
         status: "",
         picture: "",
@@ -42,7 +45,7 @@ const CreatePost = () => {
                 }
             );
             if (res.data.success) {
-                navigate("/home");
+                navigate("/");
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -83,12 +86,11 @@ const CreatePost = () => {
                         type="file"
                         name="picture"
                         onChange={fileInputHandler}
-                        
                     />
                     <Button
                         className="bg-[#202020] text-white"
                         variant="outline"
-                        onClick={submitHandler}
+                        type="submit"
                     >
                         Create
                     </Button>
