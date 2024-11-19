@@ -10,7 +10,7 @@ export const userPost = async (req, res) => {
 
         if (req.file) {
             // Upload image to Cloudinary and get the URL
-            const cloudinaryResponse = await uploadImage(req.file.path.replace('./public', ''));
+            const cloudinaryResponse = await uploadImage(req.file.path);
             pictureUrl = cloudinaryResponse.secure_url;
         }
         const post = await UserPost.create({
