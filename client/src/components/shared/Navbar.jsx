@@ -61,7 +61,7 @@ const Navbar = () => {
                     <div>
                         <ul className="flex items-center gap-9 font-medium">
                             <Link to="/home">
-                                <li>Home</li>
+                                <li className="hidden md:block">Home</li>
                             </Link>
 
                             <Popover>

@@ -70,7 +70,7 @@ const UserPost = () => {
                             </div>
                         </div>
                         <div>
-                            <ThreeDots postId={post._id} />
+                            <ThreeDots post={post}  />
                         </div>
                     </div>
 

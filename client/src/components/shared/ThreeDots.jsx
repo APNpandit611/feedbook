@@ -9,9 +9,11 @@ import {
 
 import { MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const ThreeDots = ({ postId }) => {
-    
+const ThreeDots = ({ post }) => {
+    const user = useSelector((store) => store.user.user);
+
     return (
         <div>
             <DropdownMenu>
@@ -19,16 +21,19 @@ const ThreeDots = ({ postId }) => {
                     <MoreVertical className="" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <Link to={`/post/detail/${postId}`}>
+                    <Link to={`/post/detail/${post._id}`}>
                         <DropdownMenuItem className="cursor-pointer">
                             View
                         </DropdownMenuItem>
                     </Link>
-                    <Link>
-                        <DropdownMenuItem className="cursor-pointer">
-                            Edit
-                        </DropdownMenuItem>
-                    </Link>
+                    {user._id == post.createdBy._id ? (
+                        <Link to={`/post/edit/${post._id}`}>
+                            <DropdownMenuItem className="cursor-pointer">
+                                Edit
+                            </DropdownMenuItem>
+                        </Link>
+                    ) : null}
+
                     <DropdownMenuItem className="cursor-pointer">
                         Team
                     </DropdownMenuItem>

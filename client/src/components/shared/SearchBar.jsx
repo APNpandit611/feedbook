@@ -8,7 +8,7 @@ const SearchBar = () => {
         placeholder="Search People..."
         className="w-full px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button className="absolute inset-y-0 right-0 flex items-center pr-3">
+      <button className="absolute inset-y-0 right-0 flex items-center pr-4">
         <svg
           className="w-5 h-5 text-gray-500"
           fill="none"

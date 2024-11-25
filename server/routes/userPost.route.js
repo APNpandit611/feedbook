@@ -9,7 +9,7 @@ const route = express.Router()
 route.post("/userPost", upload.single('picture'), isAuth, userPost)
 route.get("/get", getPosts)
 route.get("/get/:id", isAuth, getPostById)
-route.put("/update/:id", isAuth, updatePostById)
+route.put("/update/:id", upload.single("picture"), isAuth, updatePostById)
 
 
 

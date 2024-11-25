@@ -1,15 +1,15 @@
 import { UserPost } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
-import uploadImage  from "../utils/cloudinary.js";
+import uploadImage from "../utils/cloudinary.js";
 
 export const userPost = async (req, res) => {
     try {
         const { status } = req.body;
         const userId = req.id;
-        let pictureUrl = null
+        let pictureUrl = null;
 
         if (req.file) {
-            // Upload image to Cloudinary and get the URL
+            // cloudinary gives the url for image.
             const cloudinaryResponse = await uploadImage(req.file.path);
             pictureUrl = cloudinaryResponse.secure_url;
         }
@@ -97,7 +97,7 @@ export const updatePostById = async (req, res) => {
                 success: false,
             });
         }
-
+        
         if (post.createdBy.toString() !== userId) {
             return res.status(403).json({
                 message: "User not authorized",
@@ -105,16 +105,28 @@ export const updatePostById = async (req, res) => {
             });
         }
 
-        const updatedPost = { status };
-        const updatePost = await UserPost.findByIdAndUpdate(
-            postId,
-            updatedPost,
-            { new: true }
-        );
+        if (status) post.status = status
+        if (file) {
+            const cloudinaryRes = await uploadImage(req.file.path);
+            post.picture = cloudinaryRes.secure_url;
+        }
+        await post.save();
+
+        const updatedPost = {
+            status: post.status,
+            picture: post.picture,
+        };
+
+        // const updatePost = await UserPost.findByIdAndUpdate(
+        //     postId,
+        //     updatedPost,
+        //     { new: true }
+        // );
 
         return res.status(201).json({
             message: "Post Updated",
-            post: updatePost,
+            // post: updatePost,
+            post: updatedPost,
             success: true,
         });
     } catch (error) {
