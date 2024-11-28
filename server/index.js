@@ -4,9 +4,10 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.route.js";
 import cors from "cors";
+dotenv.config({});
 import userPostRoute from "./routes/userPost.route.js";
 import path from "path";
-dotenv.config({});
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
