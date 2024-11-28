@@ -14,7 +14,7 @@ const PORT = 3001 || process.env.PORT;
 const _dirname = path.resolve();
 
 const corOption = {
-    origin: ["http://localhost:5173"],
+    origin: ["https://feedbook-48dd.onrender.com"],
     credentials: true,
 };
 app.use(cors(corOption));
