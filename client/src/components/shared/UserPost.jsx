@@ -18,7 +18,7 @@ const UserPost = () => {
                     withCredentials: true,
                 });
                 console.log(res.data)
-                setUserPost(res.data.posts || []); // Ensure it's always an array
+                setUserPost(res.data?.posts || []); // Ensure it's always an array
             } catch (error) {
                 console.error(error);
                 //setUserPost([]); // Fallback to an empty array on error
