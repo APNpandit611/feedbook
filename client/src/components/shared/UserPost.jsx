@@ -20,7 +20,7 @@ const UserPost = () => {
                     },
                     withCredentials: true,
                 });
-                setUserPost(res.data.posts || []);
+                setUserPost(res.data.posts);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -34,10 +34,8 @@ const UserPost = () => {
         <Spinner />
     ) : (
         <div className="flex flex-col items-center justify-center h-full mx-3">
-            {userPost.length === 0 ? (
-                <p className="text-gray-500 text-center">No posts available.</p>
-            ) : (
-                userPost.map((post) => (
+            {
+                userPost.map((post, index) => (
                     <div
                         key={post._id}
                         className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg px-3 mx-auto my-3 transform transition-all duration-300 ease-in-out"
@@ -89,7 +87,7 @@ const UserPost = () => {
                         )}
                     </div>
                 ))
-            )}
+            }
         </div>
     );
 };
