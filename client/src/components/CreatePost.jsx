@@ -46,6 +46,7 @@ const CreatePost = () => {
             );
             if (res.data.success) {
                 window.location.reload()
+                console.log(res.data)
                 toast.success(res.data.message);
             }
         } catch (error) {

@@ -18,7 +18,6 @@ const UserPost = () => {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 });
-                console.log(res);
                 setUserPost(res.data?.posts || []); // Ensure it's always an array
             } catch (error) {
                 console.error(error);

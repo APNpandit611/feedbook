@@ -16,6 +16,7 @@ const uploadImage = async (localFilePath) => {
     } catch (error) {
         fs.unlinkSync(localFilePath); // remove the locally saved tempo file as the upload operation failed
         return null;
+        console.log(error)   
     }
 };
 
