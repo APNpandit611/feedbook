@@ -4,6 +4,7 @@ import axios from "axios";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import ThreeDots from "./ThreeDots";
 import { USER_POST_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
 
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
@@ -13,16 +14,16 @@ const UserPost = () => {
         const fetchUserPost = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(
-                    `${USER_POST_API_END_POINT}/get`, {
+                const res = await axios.get(`${USER_POST_API_END_POINT}/get`, {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 });
-                console.log(res.data)
+                console.log(res);
                 setUserPost(res.data?.posts || []); // Ensure it's always an array
             } catch (error) {
                 console.error(error);
                 //setUserPost([]); // Fallback to an empty array on error
+                toast.error(error.response.data.message);
             } finally {
                 setLoading(false);
             }
@@ -44,7 +45,10 @@ const UserPost = () => {
                             <div className="flex items-center gap-x-1">
                                 <Avatar>
                                     <AvatarImage
-                                        src={post.createdBy?.picture || "https://github.com/shadcn.png"}
+                                        src={
+                                            post.createdBy?.picture ||
+                                            "https://github.com/shadcn.png"
+                                        }
                                         alt="User"
                                     />
                                 </Avatar>
@@ -53,7 +57,9 @@ const UserPost = () => {
                                         {post.createdBy?.name}
                                     </p>
                                     <p className="text-xs text-gray-800">
-                                        {new Date(post.createdAt).toLocaleDateString("en-GB")}
+                                        {new Date(
+                                            post.createdAt
+                                        ).toLocaleDateString("en-GB")}
                                     </p>
                                 </div>
                             </div>
