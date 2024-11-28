@@ -13,7 +13,8 @@ const UserPost = () => {
         const fetchUserPost = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(`${USER_POST_API_END_POINT}/get`, {
+                const res = await axios.get(
+                    `${USER_POST_API_END_POINT}/get`, {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 });
