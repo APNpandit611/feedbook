@@ -9,7 +9,7 @@ import path from "path";
 dotenv.config({});
 
 const app = express();
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 const _dirname = path.resolve();
 
