@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 const _dirname = path.resolve();
 
 const corOption = {
-    origin: ["https://feedbook-48dd.onrender.com"],
+    origin: ["https://feedbook-48dd.onrender.com", "https://feedbook-48dd.onrender.com"],
     credentials: true,
 };
 app.use(cors(corOption));
