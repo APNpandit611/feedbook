@@ -14,15 +14,12 @@ const UserPost = () => {
         const fetchUserPost = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(
-                    `${USER_POST_API_END_POINT}/get/`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        withCredentials: true,
-                    }
-                );
+                const res = await axios.get(`${USER_POST_API_END_POINT}/get`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                });
                 setUserPost(res.data.posts);
             } catch (error) {
                 console.log(error);
@@ -37,61 +34,62 @@ const UserPost = () => {
         <Spinner />
     ) : (
         <div className="flex flex-col items-center justify-center h-full mx-3">
-            {userPost.map((post) => (
-                <div
-                    key={post._id}
-                    className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg px-3 mx-auto my-3 transform transition-all duration-300 ease-in-out"
-                >
-                    <div className="flex items-center justify-between gap-x-1 w-full border-b border-gray-300 focus:outline-none focus:ring-2 px-3 py-1">
-                        <div className="flex items-center gap-x-1">
-                            <div className="flex items-center justify-center border border-gray-300 rounded-full focus:outline-none focus:ring-2">
+            {userPost.length === 0 ? (
+                <p className="text-gray-500 text-center">No posts available.</p>
+            ) : (
+                userPost.map((post) => (
+                    <div
+                        key={post._id}
+                        className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg px-3 mx-auto my-3 transform transition-all duration-300 ease-in-out"
+                    >
+                        <div className="flex items-center justify-between gap-x-1 w-full border-b border-gray-300 focus:outline-none focus:ring-2 px-3 py-1">
+                            <div className="flex items-center gap-x-1">
                                 <Avatar className="cursor-pointer">
                                     <AvatarImage
                                         src={
-                                            post.createdBy.picture ||
+                                            post.createdBy?.picture ||
                                             "https://github.com/shadcn.png"
                                         }
-                                        alt="@shadcn"
+                                        alt="User"
                                     />
                                 </Avatar>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-800">
-                                    {post.createdBy.name}
-                                </p>
-                                <div className="flex gap-x-1">
-                                    <p className="text-xs text-gray-800">
-                                        {new Date(
-                                            post.createdAt
-                                        ).toLocaleDateString("en-GB", {
-                                            day: "numeric",
-                                            month: "short",
-                                            year: "numeric",
-                                        })} .
+                                <div>
+                                    <p className="text-sm font-semibold text-gray-800">
+                                        {post.createdBy?.name}
                                     </p>
-                                    <p className="text-xs text-gray-800">
-                                        edited
-                                    </p>
+                                    <div className="flex gap-x-1">
+                                        <p className="text-xs text-gray-800">
+                                            {new Date(
+                                                post.createdAt
+                                            ).toLocaleDateString("en-GB", {
+                                                day: "numeric",
+                                                month: "short",
+                                                year: "numeric",
+                                            })}{" "}
+                                            .
+                                        </p>
+                                        <p className="text-xs text-gray-800">
+                                            edited
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
                             <ThreeDots post={post} />
                         </div>
-                    </div>
 
-                    <div className="py-1 px-3">{post.status}</div>
-                    {post.picture ? (
-                        <div className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
-                            <img
-                                src={post.picture}
-                                alt="post image"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    ) : null}
-                </div>
-            ))}
+                        <div className="py-1 px-3">{post.status}</div>
+                        {post.picture && (
+                            <div className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
+                                <img
+                                    src={post.picture}
+                                    alt="post"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
+                    </div>
+                ))
+            )}
         </div>
     );
 };
