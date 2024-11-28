@@ -45,7 +45,7 @@ const CreatePost = () => {
                 }
             );
             if (res.data.success) {
-                navigate("/home");
+                window.location.reload()
                 toast.success(res.data.message);
             }
         } catch (error) {
