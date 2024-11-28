@@ -45,6 +45,7 @@ export const getPosts = async (req, res) => {
             "createdBy",
             "name email picture"
         );
+        console.log(posts)
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
