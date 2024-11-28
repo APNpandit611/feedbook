@@ -37,7 +37,8 @@ const appRouter = createBrowserRouter([
     {
         path: "/post/delete/:id",
         element: <DeletePost/>
-    }
+    },
+    
 ]);
 
 function App() {

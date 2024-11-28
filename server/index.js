@@ -22,7 +22,7 @@ app.use(cors(corOption));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(express.static("public"));
+app.use(express.static("public"));
 
 //api
 app.use("/api/v1/user", userRoute);
