@@ -4,6 +4,7 @@ import axios from "axios";
 import { FastForward } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThreeDots from "./ThreeDots";
+import { USER_POST_API_END_POINT } from "@/utils/constant";
 
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]);
@@ -14,7 +15,7 @@ const UserPost = () => {
             setLoading(true);
             try {
                 const res = await axios.get(
-                    "http://localhost:3001/api/v1/post/get/",
+                    `${USER_POST_API_END_POINT}/get/`,
                     {
                         headers: {
                             "Content-Type": "application/json",
