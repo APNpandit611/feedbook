@@ -97,7 +97,7 @@ export const updatePostById = async (req, res) => {
                 success: false,
             });
         }
-        
+
         if (post.createdBy.toString() !== userId) {
             return res.status(403).json({
                 message: "User not authorized",
@@ -105,7 +105,7 @@ export const updatePostById = async (req, res) => {
             });
         }
 
-        if (status) post.status = status
+        if (status) post.status = status;
         if (file) {
             const cloudinaryRes = await uploadImage(req.file.path);
             post.picture = cloudinaryRes.secure_url;
@@ -127,6 +127,22 @@ export const updatePostById = async (req, res) => {
             message: "Post Updated",
             // post: updatePost,
             post: updatedPost,
+            success: true,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deletePostById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.id;
+
+        await UserPost.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            message: "Post Deleted successfully",
             success: true,
         });
     } catch (error) {

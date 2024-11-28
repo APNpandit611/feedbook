@@ -4,6 +4,9 @@ import Spinner from "./shared/Spinner";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ViewPost = () => {
     const [post, setPost] = useState([]);
@@ -37,31 +40,49 @@ const ViewPost = () => {
     return loading ? (
         <Spinner />
     ) : (
-        <div>
-            <div className="flex flex-col gap-y-5">
-                <div className="">
-                    <span className="text-lg mr-4">Post Id:</span>
+        <Card className="max-w-2xl mx-auto p-6 mt-4">
+            <CardHeader>
+                <CardTitle className="text-xl font-bold">
+                    Post Details
+                </CardTitle>
+            </CardHeader>
+            <Separator className="my-4" />
+            <CardContent className="space-y-5">
+                <div className="flex justify-between">
+                    <span className="font-medium text-gray-600">Post ID:</span>
                     <span>{post._id}</span>
                 </div>
-                <div>
-                    <span className="text-lg mr-4">Status:</span>
+                <div className="flex justify-between">
+                    <span className="font-medium text-gray-600">Status:</span>
                     <span>{post.status}</span>
                 </div>
-                <div>
-                    <span className="text-lg mr-4">User ID:</span>
+                <div className="flex justify-between">
+                    <span className="font-medium text-gray-600">User ID:</span>
                     <span>{post.createdBy?._id}</span>
                 </div>
-                <div>
-                    <span className="text-lg mr-4">Name:</span>
-                    <span>{post.createdBy?.name}</span>
+                <div className="flex justify-between items-center">
+                    <span className="font-medium text-gray-600">Name:</span>
+                    <div className="flex items-center space-x-2">
+                        <Avatar className="h-8 w-8">
+                            <AvatarImage
+                                src={post.createdBy?.avatar}
+                                alt={post.createdBy?.name}
+                            />
+                            <AvatarFallback>
+                                {post.createdBy?.name?.charAt(0) || "U"}
+                            </AvatarFallback>
+                        </Avatar>
+                        <span>{post.createdBy?.name}</span>
+                    </div>
                 </div>
-                <div>
-                    <span className="text-lg mr-4">Email:</span>
+                <div className="flex justify-between">
+                    <span className="font-medium text-gray-600">Email:</span>
                     <span>{post.createdBy?.email}</span>
                 </div>
-
-                <div>
-                    <span className="text-lg mr-4">Created At:</span>
+                <div className="flex justify-between">
+                    <span className="font-medium text-gray-600">
+                        Created At:
+                    </span>
                     <span>
                         {new Date(post.createdAt).toLocaleDateString("en-GB", {
                             day: "numeric",
@@ -70,15 +91,17 @@ const ViewPost = () => {
                         })}
                     </span>
                 </div>
-                <div className="w-1/3 h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
-                    <img
-                        src={post.picture}
-                        alt="post image"
-                        className="object-cover"
-                    />
-                </div>
-            </div>
-        </div>
+                {post.picture ? (
+                    <div className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
+                        <img
+                            src={post.picture}
+                            alt="post image"
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                ) : null}
+            </CardContent>
+        </Card>
     );
 };
 

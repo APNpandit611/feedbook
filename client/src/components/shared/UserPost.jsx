@@ -58,19 +58,24 @@ const UserPost = () => {
                                 <p className="text-sm font-semibold text-gray-800">
                                     {post.createdBy.name}
                                 </p>
-                                <p className="text-xs text-gray-800">
-                                    {new Date(
-                                        post.createdAt
-                                    ).toLocaleDateString("en-GB", {
-                                        day: "numeric",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
-                                </p>
+                                <div className="flex gap-x-1">
+                                    <p className="text-xs text-gray-800">
+                                        {new Date(
+                                            post.createdAt
+                                        ).toLocaleDateString("en-GB", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })} .
+                                    </p>
+                                    <p className="text-xs text-gray-800">
+                                        edited
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div>
-                            <ThreeDots post={post}  />
+                            <ThreeDots post={post} />
                         </div>
                     </div>
 

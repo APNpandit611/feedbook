@@ -26,20 +26,20 @@ const ThreeDots = ({ post }) => {
                             View
                         </DropdownMenuItem>
                     </Link>
-                    {user._id == post.createdBy._id ? (
-                        <Link to={`/post/edit/${post._id}`}>
-                            <DropdownMenuItem className="cursor-pointer">
-                                Edit
-                            </DropdownMenuItem>
-                        </Link>
+                    {user._id === post.createdBy._id ? (
+                        <>
+                            <Link to={`/post/edit/${post._id}`}>
+                                <DropdownMenuItem className="cursor-pointer">
+                                    Edit
+                                </DropdownMenuItem>
+                            </Link>
+                            <Link to={`/post/delete/${post._id}`}>
+                                <DropdownMenuItem className="cursor-pointer">
+                                    Delete
+                                </DropdownMenuItem>
+                            </Link>
+                        </>
                     ) : null}
-
-                    <DropdownMenuItem className="cursor-pointer">
-                        Team
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                        Subscription
-                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

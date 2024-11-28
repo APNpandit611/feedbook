@@ -80,12 +80,12 @@ const CreatePost = () => {
                     />
                 </div>
                 <div className="flex items-center justify-between m-1">
-                    <div className="py-1 px-3 font-medium">{user.name}</div>
                     <input
                         accept="image/*"
                         type="file"
                         name="picture"
                         onChange={fileInputHandler}
+                        
                     />
                     <Button
                         className="bg-[#202020] text-white"

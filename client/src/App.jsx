@@ -6,6 +6,7 @@ import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
 import ViewPost from "./components/ViewPost";
 import EditPost from "./components/EditPost";
+import DeletePost from "./components/DeletePost";
 
 
 const appRouter = createBrowserRouter([
@@ -32,6 +33,10 @@ const appRouter = createBrowserRouter([
     {
         path: "/post/edit/:id",
         element: <EditPost/>
+    },
+    {
+        path: "/post/delete/:id",
+        element: <DeletePost/>
     }
 ]);
 
