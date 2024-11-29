@@ -21,7 +21,6 @@ const EditPost = () => {
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const isEdited = useSelector((store)=>store.postUpdate)
 
 
     useEffect(() => {
@@ -126,7 +125,6 @@ const EditPost = () => {
                                         year: "numeric",
                                     })}
                                 </p>
-                                {isEdited && <p>. edited</p>}
                             </div>
                         </div>
                     </div>

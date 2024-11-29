@@ -5,10 +5,13 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import ThreeDots from "./ThreeDots";
 import { USER_POST_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
     const [loading, setLoading] = useState(false);
+    const isEdited = useSelector((store)=>store.postUpdate)
+
 
     useEffect(() => {
         const fetchUserPost = async () => {
@@ -65,6 +68,7 @@ const UserPost = () => {
                                         })}{" "}
                                         
                                     </p>
+                                    {isEdited && <p className="text-xs text-gray-800">. edited</p>}
                                 </div>
                             </div>
                             <ThreeDots post={post} />
