@@ -10,7 +10,10 @@ export const userPost = async (req, res) => {
         if (req.file) {
             // cloudinary gives the url for image.
             // const cloudinaryResponse = await uploadImage(req.file.path);
-            const cloudinaryResponse = await uploadImage(req.file.buffer, req.file.originalname); 
+            const cloudinaryResponse = await uploadImage(
+                req.file.buffer,
+                req.file.originalname
+            );
             pictureUrl = cloudinaryResponse.secure_url;
         }
         const post = await UserPost.create({
@@ -45,7 +48,7 @@ export const getPosts = async (req, res) => {
             "createdBy",
             "name email picture"
         );
-        console.log(posts)
+        console.log(posts);
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
@@ -108,8 +111,12 @@ export const updatePostById = async (req, res) => {
         }
 
         if (status) post.status = status;
+
         if (file) {
-            const cloudinaryRes = await uploadImage(req.file.path);
+            const cloudinaryRes = await uploadImage(
+                file.buffer,
+                file.originalname
+            );
             post.picture = cloudinaryRes.secure_url;
         }
         await post.save();

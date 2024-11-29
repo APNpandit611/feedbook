@@ -33,7 +33,6 @@ const CreatePost = () => {
         if (input.file) {
             formData.append("picture", input.file);
         }
-        console.log(input.file)
         try {
             const res = await axios.post(
                 `${USER_POST_API_END_POINT}/userPost`,
@@ -46,10 +45,8 @@ const CreatePost = () => {
                 },
                 
             );
-            
             if (res.data.success) { 
                 window.location.reload()
-                console.log(res.data)
                 toast.success(res.data.message);
             }
         } catch (error) {
