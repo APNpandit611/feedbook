@@ -7,7 +7,7 @@ export const userPost = async (req, res) => {
         const { status } = req.body;
         const userId = req.id;
         let pictureUrl = null;
-
+        console.log(req.file)
         if (req.file) {
             // cloudinary gives the url for image.
             // const cloudinaryResponse = await uploadImage(req.file.path);
