@@ -62,6 +62,7 @@ const EditPost = () => {
         formData.append("status", input.status);
         if (input.file) formData.append("picture", input.file);
         try {
+            setIsEdited(true);
             const res = await axios.put(
                 `${USER_POST_API_END_POINT}/update/${id}`,
                 formData,
@@ -72,7 +73,6 @@ const EditPost = () => {
                     withCredentials: true,
                 }
             );
-            setIsEdited(true);
             setLoading(false);
             if (res.data.success) {
                 setLoading(false);
@@ -118,7 +118,7 @@ const EditPost = () => {
                                         year: "numeric",
                                     })}
                                 </p>
-                                <p>{isEdited ? <p>. edited</p> : null}</p>
+                               {isEdited ? <p>. edited</p>: null}
                             </div>
                         </div>
                     </div>
