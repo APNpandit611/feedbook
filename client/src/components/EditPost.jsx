@@ -18,10 +18,11 @@ const EditPost = () => {
     const [post, setPost] = useState({});
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
-    const isEdited = useSelector((store)=>store.postUpdate)
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const isEdited = useSelector((store)=>store.postUpdate)
+
 
     useEffect(() => {
         const getPost = async () => {
