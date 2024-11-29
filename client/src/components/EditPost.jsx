@@ -15,6 +15,7 @@ const EditPost = () => {
     const [post, setPost] = useState({});
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const [ isEdited, setIsEdited ] = useState(false);
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
 
@@ -71,7 +72,7 @@ const EditPost = () => {
                     withCredentials: true,
                 }
             );
-
+            setIsEdited(true)
             setLoading(false);
             if (res.data.success) {
                 setLoading(false);
@@ -117,6 +118,7 @@ const EditPost = () => {
                                         year: "numeric",
                                     })}
                                 </p>
+                                {isEdited ? <p>. edited</p> : null}
                             </div>
                         </div>
                     </div>

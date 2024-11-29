@@ -10,8 +10,6 @@ const uploadImage = async (buffer, filename) => {
     try {
          // Convert the buffer to a base64-encoded data URI
          const base64 = `data:image/${filename.split('.').pop()};base64,${buffer.toString("base64")}`;
-
-
         const res = await cloudinary.uploader.upload(base64, {
             resource_type: "auto",
         });
