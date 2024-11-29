@@ -6,6 +6,9 @@ import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import Spinner from "./shared/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsEdited } from "@/store/postUpdateSlice";
+
 // import { useSelector } from "react-redux";
 const EditPost = () => {
     const [input, setInput] = useState({
@@ -15,14 +18,16 @@ const EditPost = () => {
     const [post, setPost] = useState({});
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
-    const [isEdited, setIsEdited] = useState(false);
+    const isEdited = useSelector((store)=>store.postUpdate)
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const getPost = async () => {
             setLoading(true);
             try {
+                
                 const res = await axios.get(
                     `${USER_POST_API_END_POINT}/get/${id}`,
                     {
@@ -62,7 +67,7 @@ const EditPost = () => {
         formData.append("status", input.status);
         if (input.file) formData.append("picture", input.file);
         try {
-            setIsEdited(true);
+            
             const res = await axios.put(
                 `${USER_POST_API_END_POINT}/update/${id}`,
                 formData,
@@ -73,6 +78,7 @@ const EditPost = () => {
                     withCredentials: true,
                 }
             );
+            dispatch(setIsEdited(true))
             setLoading(false);
             if (res.data.success) {
                 setLoading(false);
