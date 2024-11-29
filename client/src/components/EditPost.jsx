@@ -79,9 +79,10 @@ const EditPost = () => {
                     withCredentials: true,
                 }
             );
-            dispatch(setIsEdited(true))
+            
             setLoading(false);
             if (res.data.success) {
+                dispatch(setIsEdited(true))
                 setLoading(false);
                 navigate("/home");
                 toast(res.data.message);
@@ -125,7 +126,7 @@ const EditPost = () => {
                                         year: "numeric",
                                     })}
                                 </p>
-                               {isEdited ? <p>. edited</p>: null}
+                                {isEdited && <p>. edited</p>}
                             </div>
                         </div>
                     </div>
