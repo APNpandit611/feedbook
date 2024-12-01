@@ -24,7 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userSlice,
     postUpdate: postUpdateSlice,
-    loading: loadingSlice
+    loading: loadingSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -7,7 +7,7 @@ const postUpdateSlice = createSlice({
     },
     reducers: {
         setEditedItem: (state, action) => {
-            state.editedItem = [...state.editedItem, action.payload];
+            state.editedItem.push(action.payload);
         },
     },
 });

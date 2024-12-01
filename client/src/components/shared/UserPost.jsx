@@ -5,12 +5,14 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import ThreeDots from "./ThreeDots";
 import { USER_POST_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { FaThumbsUp, FaRegHeart, FaLaughSquint } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
     const [loading, setLoading] = useState(false);
-    // const postUpdate = useSelector((store) => store.postUpdate.setEditedItem);
+    const editedItem = useSelector((store) => store.postUpdate.editedItem);
+
     useEffect(() => {
         const fetchUserPost = async () => {
             setLoading(true);
@@ -66,9 +68,11 @@ const UserPost = () => {
                                                 year: "numeric",
                                             })}
                                         </p>
-                                        {/* {
-                                        editedPost.includes(post._id) ? <p className="text-xs text-gray-800">edited</p> : null
-                                      } */}
+                                        {editedItem.includes(post._id) && (
+                                                <p className="text-xs text-gray-800 ml-2">
+                                                    edited
+                                                </p>
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -82,6 +86,22 @@ const UserPost = () => {
                                 className="w-full h-64 object-cover rounded-lg"
                             />
                         )}
+                        <div className="reaction-buttons flex space-x-3 m-4">
+                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                                <FaThumbsUp size={20} className="mr-2" />
+                                <span>{post.likes}</span>
+                            </button>
+
+                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                                <FaRegHeart size={20} className="mr-2" />
+                                <span>{post.likes}</span>
+                            </button>
+
+                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                                <FaLaughSquint size={20} className="mr-2" />
+                                <span>{post.likes}</span>
+                            </button>
+                        </div>
                     </div>
                 ))
             ) : (

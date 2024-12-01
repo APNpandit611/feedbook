@@ -6,7 +6,7 @@ import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import Spinner from "./shared/Spinner";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setEditedItem } from "@/store/postUpdateSlice";
 
 // import { useSelector } from "react-redux";
@@ -21,8 +21,8 @@ const EditPost = () => {
 
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         const getPost = async () => {
@@ -78,7 +78,7 @@ const EditPost = () => {
             );
             setLoading(false);
             if (res.data.success) {
-                // dispatch(setEditedItem(res.data.post._id))
+                dispatch(setEditedItem(id))
                 setLoading(false);
                 navigate("/home");
                 toast(res.data.message);
