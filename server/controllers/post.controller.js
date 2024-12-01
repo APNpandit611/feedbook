@@ -136,7 +136,6 @@ export const updatePostById = async (req, res) => {
             // post: updatePost,
             post: updatedPost,
             success: true,
-            isEdited: true
         });
     } catch (error) {
         console.log(error);

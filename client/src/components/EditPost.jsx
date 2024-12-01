@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import Spinner from "./shared/Spinner";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsEdited } from "@/store/postUpdateSlice";
+import { setEditedItem } from "@/store/postUpdateSlice";
 
 // import { useSelector } from "react-redux";
 const EditPost = () => {
@@ -15,19 +15,19 @@ const EditPost = () => {
         status: "",
         picture: "",
     });
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState([]);
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
+
     // const user = useSelector((store)=>store.user.user)
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
+    
 
     useEffect(() => {
         const getPost = async () => {
             setLoading(true);
             try {
-                
                 const res = await axios.get(
                     `${USER_POST_API_END_POINT}/get/${id}`,
                     {
@@ -60,14 +60,12 @@ const EditPost = () => {
         setInput({ ...input, file: e.target.files?.[0] });
     };
     const submitHandler = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         setLoading(true);
-
         const formData = new FormData();
         formData.append("status", input.status);
         if (input.file) formData.append("picture", input.file);
         try {
-            
             const res = await axios.put(
                 `${USER_POST_API_END_POINT}/update/${id}`,
                 formData,
@@ -78,10 +76,9 @@ const EditPost = () => {
                     withCredentials: true,
                 }
             );
-            
             setLoading(false);
             if (res.data.success) {
-                dispatch(setIsEdited(true))
+                // dispatch(setEditedItem(res.data.post._id))
                 setLoading(false);
                 navigate("/home");
                 toast(res.data.message);
@@ -91,6 +88,7 @@ const EditPost = () => {
             toast.error(error.res.data.message);
         }
     };
+
 
     return loading ? (
         <Spinner />

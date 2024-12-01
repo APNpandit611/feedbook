@@ -5,18 +5,19 @@ import axios from "axios";
 import { USER_POST_API_END_POINT } from "@/utils/constant.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/store/loadingSlice";
+import ButtonSpinner from "./shared/ButtonSpinner";
 
 const CreatePost = () => {
+    const dispatch = useDispatch();
     // const user = JSON.parse(localStorage.getItem("user"));
-    const user = useSelector((store)=>store.user.user)
+    const user = useSelector((store) => store.user.user);
+    const loading = useSelector((store) => store.loading.loading);
     const [input, setInput] = useState({
         status: "",
         picture: "",
     });
-
-    const navigate = useNavigate();
 
     const inputHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -34,6 +35,7 @@ const CreatePost = () => {
             formData.append("picture", input.file);
         }
         try {
+            dispatch(setLoading(true));
             const res = await axios.post(
                 `${USER_POST_API_END_POINT}/userPost`,
                 formData,
@@ -42,16 +44,17 @@ const CreatePost = () => {
                         "Content-Type": "multipart/form-data",
                     },
                     withCredentials: true,
-                },
-                
+                }
             );
-            if (res.data.success) { 
-                window.location.reload()
+            if (res.data.success) {
                 toast.success(res.data.message);
+                window.location.reload();
             }
         } catch (error) {
             toast.error(error.response.data.message);
             console.log(error.response.data.message);
+        } finally {
+            dispatch(setLoading(false));
         }
     };
 
@@ -86,15 +89,18 @@ const CreatePost = () => {
                         type="file"
                         name="picture"
                         onChange={fileInputHandler}
-                        
                     />
-                    <Button
-                        className="bg-[#202020] text-white"
-                        variant="outline"
-                        type="submit"
-                    >
-                        Create
-                    </Button>
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button
+                            className="bg-[#202020] text-white"
+                            variant="outline"
+                            type="submit"
+                        >
+                            Post
+                        </Button>
+                    )}
                 </div>
             </form>
         </div>

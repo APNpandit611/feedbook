@@ -3,18 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const postUpdateSlice = createSlice({
     name: "postUpdate",
     initialState: {
-        isEdited: false,
+        editedItem: [],
     },
     reducers: {
-        setIsEdited: (state, action) => {
-            state.isEdited = action.payload;
-        },
-
-        resetIsEdited: (state) => {
-            state.isEdited = false;
+        setEditedItem: (state, action) => {
+            state.editedItem = [...state.editedItem, action.payload];
         },
     },
 });
 
-export const { setIsEdited, resetIsEdited } = postUpdateSlice.actions;
+export const { setEditedItem } = postUpdateSlice.actions;
 export default postUpdateSlice.reducer;

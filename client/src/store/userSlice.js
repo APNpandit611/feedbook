@@ -4,23 +4,19 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         user: null,
-        loading: false,
-        mode:null
+        mode: null,
     },
-    reducers:{
-        
-        setLoading:(state, action) => {
-            state.loading = action.payload
-        },
-        login:(state, action) => {
+    reducers: {
+        login: (state, action) => {
             state.user = action.payload.user;
             state.mode = action.payload.mode;
         },
-        logout:(state) => {
+        logout: (state) => {
             state.user = null;
-        }
-    }
-})
+            state.mode = null;
+        },
+    },
+});
 
-export const {setLoading, login, logout, setMode} = userSlice.actions;
+export const { login, logout, setMode } = userSlice.actions;
 export default userSlice.reducer;

@@ -10,7 +10,8 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { googleLogout } from "@react-oauth/google";
 import SearchBar from "./SearchBar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/store/userSlice";
 
 const Navbar = () => {
     // const user = JSON.parse(localStorage.getItem('user'));
@@ -19,6 +20,7 @@ const Navbar = () => {
     const mode = useSelector((store)=>store.user.mode)
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const logoutHandler = async (e) => {
         e.preventDefault();
@@ -39,7 +41,6 @@ const Navbar = () => {
                 navigate("/");
                 toast.success(res.data.message);
             }
-
             // if (res.data.success) {
             //     localStorage.removeItem("user");
             //     navigate("/");
@@ -48,6 +49,8 @@ const Navbar = () => {
         } catch (error) {
             console.log(error);
             toast.error("An error occurred during logout. Please try again.");
+        } finally {
+            dispatch(logout())
         }
     };
 
