@@ -5,13 +5,16 @@ const postUpdateSlice = createSlice({
     initialState: {
         isEdited: false,
     },
-    reducers:{
-        setIsEdited:(state, action) => {
-            state.loading = action.payload;
-        }
-    }
-})
+    reducers: {
+        setIsEdited: (state, action) => {
+            state.isEdited = action.payload;
+        },
 
-export const {setIsEdited} = postUpdateSlice.actions;
+        resetIsEdited: (state) => {
+            state.isEdited = false;
+        },
+    },
+});
+
+export const { setIsEdited, resetIsEdited } = postUpdateSlice.actions;
 export default postUpdateSlice.reducer;
-

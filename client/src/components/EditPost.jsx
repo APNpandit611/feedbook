@@ -125,6 +125,7 @@ const EditPost = () => {
                                         year: "numeric",
                                     })}
                                 </p>
+                                
                             </div>
                         </div>
                     </div>

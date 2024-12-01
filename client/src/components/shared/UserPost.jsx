@@ -10,8 +10,7 @@ import { useSelector } from "react-redux";
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
     const [loading, setLoading] = useState(false);
-    const isEdited = useSelector((store)=>store.postUpdate)
-
+    const [isEdited, setIsEdited] = useState(false)
 
     useEffect(() => {
         const fetchUserPost = async () => {
@@ -21,7 +20,8 @@ const UserPost = () => {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 });
-                setUserPost(res.data?.posts || []); // Ensure it's always an array
+                setUserPost(res.data?.posts);
+                setIsEdited(res.data?.isEdited) // Ensure it's always an array
             } catch (error) {
                 console.error(error);
                 //setUserPost([]); // Fallback to an empty array on error
@@ -55,23 +55,19 @@ const UserPost = () => {
                                     />
                                 </Avatar>
                                 <div>
-                                    <p className="text-sm font-semibold text-gray-800">
+                                    <p className="text-sm font-bold text-gray-800">
                                         {post.createdBy?.name}
                                     </p>
                                     <p className="text-xs text-gray-800">
                                         {new Date(
                                             post.createdAt
-                                        ).toLocaleDateString("en-GB", {
-                                            day: "numeric",
-                                            month: "short",
-                                            year: "numeric",
-                                        })}{" "}
-                                        
+                                        ).toLocaleDateString("en-GB")}
                                     </p>
-                                    {isEdited && <p className="text-xs text-gray-800">. edited</p>}
+                                    <p className="text-xs text-gray-400">hello world</p>
+                                    {isEdited ?? <p className="text-xs text-gray-400">. edited</p>}
                                 </div>
                             </div>
-                            <ThreeDots post={post} />
+                           
                         </div>
                         <div className="py-1 px-3">{post.status}</div>
                         {post.picture && (

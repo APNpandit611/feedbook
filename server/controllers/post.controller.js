@@ -48,7 +48,6 @@ export const getPosts = async (req, res) => {
             "createdBy",
             "name email picture"
         );
-        console.log(posts);
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
@@ -137,6 +136,7 @@ export const updatePostById = async (req, res) => {
             // post: updatePost,
             post: updatedPost,
             success: true,
+            isEdited: true
         });
     } catch (error) {
         console.log(error);
