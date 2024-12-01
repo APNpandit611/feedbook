@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3001;
 const _dirname = path.resolve();
 
 const corOption = {
-    origin: ["https://feedbook-blog.netlify.app"],
+    origin: ["https://feedbook-48dd.onrender.com"],
     credentials: true,
 };
 
