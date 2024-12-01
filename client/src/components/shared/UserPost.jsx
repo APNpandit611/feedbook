@@ -21,7 +21,10 @@ const UserPost = () => {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 });
-                setUserPost(res.data?.posts || []); // Ensure it's always an array
+                const sortedPosts = (res.data?.posts || []).sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                )
+                setUserPost(sortedPosts); // Ensure it's always an array
             } catch (error) {
                 console.error(error);
                 //setUserPost([]); // Fallback to an empty array on error
@@ -34,7 +37,7 @@ const UserPost = () => {
     }, []);
 
     return loading ? (
-        <Spinner />
+        <Spinner /> 
     ) : (
         <div className="flex flex-col items-center justify-center h-full mx-3">
             {Array.isArray(userPost) && userPost.length > 0 ? (
