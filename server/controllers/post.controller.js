@@ -47,7 +47,10 @@ export const getPosts = async (req, res) => {
         const posts = await UserPost.find({}).populate(
             "createdBy",
             "name email picture"
-        ).populate("reactions", "reactions user");
+        ).populate({
+            path: 'reactions.userId',   // Path to the userId field in the reactions array
+            select: 'name'               // Select only the name field from the User model
+        });
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
@@ -71,7 +74,10 @@ export const getPostById = async (req, res) => {
         const post = await UserPost.findById(postId).populate(
             "createdBy",
             "name email picture"
-        );
+        ).populate({
+            path: 'reactions.userId',   // Path to the userId field in the reactions array
+            select: 'name'               // Select only the name field from the User model
+        });
         if (!post) {
             return res.status(404).json({
                 message: "Post not found",

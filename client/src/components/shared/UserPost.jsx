@@ -5,8 +5,22 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import ThreeDots from "./ThreeDots";
 import { USER_POST_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
-import { FaThumbsUp, FaRegHeart, FaLaughSquint } from "react-icons/fa";
+import {
+    FaThumbsUp,
+    FaRegHeart,
+    FaLaughSquint,
+    FaHeart,
+    FaLaugh,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
@@ -55,7 +69,7 @@ const UserPost = () => {
                 `${USER_POST_API_END_POINT}/${postId}/react`,
                 {
                     reaction,
-                    userId
+                    userId,
                 },
                 {
                     headers: { "Content-Type": "application/json" },
@@ -132,49 +146,100 @@ const UserPost = () => {
                             <img
                                 src={post.picture}
                                 alt="Post"
-                                className="w-full h-64 object-cover rounded-lg"
+                                className="w-full h-72 object-cover rounded-lg "
                             />
                         )}
-                        <div className="reaction-buttons flex space-x-3 m-4">
-                            <button
-                                onClick={() => handleReaction("like", post._id)}
-                                className="flex items-center text-gray-700 hover:text-blue-500"
-                            >
-                                <FaThumbsUp size={20} className="mr-2" />
-                                <span>
-                                    {post.reactions?.filter(
-                                        (r) => r.reaction === "like"
-                                    ).length || 0}
-                                </span>
-                            </button>
+                        <div className="flex justify-between">
+                            <div className="flex space-x-3 m-4">
+                                <button
+                                    onClick={() =>
+                                        handleReaction("like", post._id)
+                                    }
+                                    className="flex items-center text-gray-700 hover:text-blue-500"
+                                >
+                                    <FaThumbsUp size={20} className="mr-2" />
+                                    <span>
+                                        {post.reactions?.filter(
+                                            (r) => r.reaction === "like"
+                                        ).length || 0}
+                                    </span>
+                                </button>
 
-                            <button
-                                onClick={() =>
-                                    handleReaction("heart", post._id)
-                                }
-                                 className="flex items-center text-gray-700 hover:text-red-500"
-                            >
-                                <FaRegHeart size={20} className="mr-2" />
-                                <span>
-                                    {post.reactions?.filter(
-                                        (r) => r.reaction === "heart"
-                                    ).length || 0}
-                                </span>
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        handleReaction("heart", post._id)
+                                    }
+                                    className="flex items-center text-gray-700 hover:text-red-500"
+                                >
+                                    <FaRegHeart size={20} className="mr-2" />
+                                    <span>
+                                        {post.reactions?.filter(
+                                            (r) => r.reaction === "heart"
+                                        ).length || 0}
+                                    </span>
+                                </button>
 
-                            <button
-                                onClick={() =>
-                                    handleReaction("laugh", post._id)
-                                }
-                                className="flex items-center text-gray-700 hover:text-yellow-500"
-                            >
-                                <FaLaughSquint size={20} className="mr-2" />
-                                <span>
-                                    {post.reactions?.filter(
-                                        (r) => r.reaction === "laugh"
-                                    ).length || 0}
-                                </span>
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        handleReaction("laugh", post._id)
+                                    }
+                                    className="flex items-center text-gray-700 hover:text-yellow-500"
+                                >
+                                    <FaLaughSquint size={20} className="mr-2" />
+                                    <span>
+                                        {post.reactions?.filter(
+                                            (r) => r.reaction === "laugh"
+                                        ).length || 0}
+                                    </span>
+                                </button>
+                            </div>
+                            <div className="mt-3 mr-2">
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <button className="border px-2 py-1 rounded-md text-sm">
+                                            See React
+                                        </button>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <ScrollArea className="h-auto w-60 rounded-md border">
+                                            <div className="p-4">
+                                                <div>
+                                                    {post.reactions?.map(
+                                                        (r) => (
+                                                            <div key={r._id}>
+                                                                <div className="flex items-center justify-between space-x-2">
+                                                                    <span className="font-medium text-gray-800">
+                                                                        {
+                                                                            r
+                                                                                .userId
+                                                                                ?.name
+                                                                        }
+                                                                    </span>
+                                                                    <span className="text-gray-600">
+                                                                        {r.reaction ===
+                                                                            "like" && (
+                                                                            <FaThumbsUp className="text-blue-500" />
+                                                                        )}
+                                                                        {r.reaction ===
+                                                                            "heart" && (
+                                                                            <FaHeart className="text-red-500" />
+                                                                        )}
+                                                                        {r.reaction ===
+                                                                            "laugh" && (
+                                                                            <FaLaugh className="text-yellow-500" />
+                                                                        )}
+                                                                    </span>
+                                                                </div>
+                                                                <Separator className="my-2" />
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </ScrollArea>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
                         </div>
                     </div>
                 ))
