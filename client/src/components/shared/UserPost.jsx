@@ -12,6 +12,17 @@ const UserPost = () => {
     const [userPost, setUserPost] = useState([]); // Initialize as an empty array
     const [loading, setLoading] = useState(false);
     const editedItem = useSelector((store) => store.postUpdate.editedItem);
+    const user = useSelector((store) => store.user.user);
+    const userId = user?._id;
+
+    //     await axios.post(`${USER_POST_API_END_POINT}/react`, {
+    //         postId: postId,
+    //         reactions: reactType,
+    //     });
+    //     console.log(`Post ID: ${postId}, Reaction: ${reactType}`);
+    // } catch (error) {
+    //     console.log(error)
+    // }
 
     useEffect(() => {
         const fetchUserPost = async () => {
@@ -22,8 +33,10 @@ const UserPost = () => {
                     withCredentials: true,
                 });
                 const sortedPosts = (res.data?.posts || []).sort(
-                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-                )
+                    (a, b) =>
+                        new Date(b.updatedAt || b.createdAt) -
+                        new Date(a.updatedAt || a.createdAt)
+                );
                 setUserPost(sortedPosts); // Ensure it's always an array
             } catch (error) {
                 console.error(error);
@@ -36,8 +49,41 @@ const UserPost = () => {
         fetchUserPost();
     }, []);
 
+    const handleReaction = async (reaction, postId) => {
+        try {
+            const res = await axios.post(
+                `${USER_POST_API_END_POINT}/${postId}/react`,
+                {
+                    reaction,
+                    userId
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
+            if (res.data.success) {
+                toast.success(res.data.message);
+                setUserPost((prevPosts) =>
+                    prevPosts.map((post) =>
+                        post._id === postId
+                            ? { ...post, reactions: res.data.post?.reactions }
+                            : post
+                    )
+                );
+                // setUserReactions((prevReactions) => ({
+                //     ...prevReactions,
+                //     [postId]: reaction,
+                // }));
+            }
+        } catch (error) {
+            toast.error(error.response.data.message);
+            console.log(error.response.data.message);
+        }
+    };
+
     return loading ? (
-        <Spinner /> 
+        <Spinner />
     ) : (
         <div className="flex flex-col items-center justify-center h-full mx-3">
             {Array.isArray(userPost) && userPost.length > 0 ? (
@@ -64,7 +110,7 @@ const UserPost = () => {
                                     <div className="flex ">
                                         <p className="text-xs text-gray-800">
                                             {new Date(
-                                                post.createdAt
+                                                post.updatedAt
                                             ).toLocaleDateString("en-GB", {
                                                 day: "numeric",
                                                 month: "short",
@@ -72,10 +118,10 @@ const UserPost = () => {
                                             })}
                                         </p>
                                         {editedItem.includes(post._id) && (
-                                                <p className="text-xs text-gray-800 ml-2">
-                                                    edited
-                                                </p>
-                                            )}
+                                            <p className="text-xs text-gray-800 ml-2">
+                                                edited
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -90,19 +136,44 @@ const UserPost = () => {
                             />
                         )}
                         <div className="reaction-buttons flex space-x-3 m-4">
-                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                            <button
+                                onClick={() => handleReaction("like", post._id)}
+                                className="flex items-center text-gray-700 hover:text-blue-500"
+                            >
                                 <FaThumbsUp size={20} className="mr-2" />
-                                <span>{post.likes}</span>
+                                <span>
+                                    {post.reactions?.filter(
+                                        (r) => r.reaction === "like"
+                                    ).length || 0}
+                                </span>
                             </button>
 
-                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                            <button
+                                onClick={() =>
+                                    handleReaction("heart", post._id)
+                                }
+                                 className="flex items-center text-gray-700 hover:text-red-500"
+                            >
                                 <FaRegHeart size={20} className="mr-2" />
-                                <span>{post.likes}</span>
+                                <span>
+                                    {post.reactions?.filter(
+                                        (r) => r.reaction === "heart"
+                                    ).length || 0}
+                                </span>
                             </button>
 
-                            <button className="flex items-center text-gray-700 hover:text-blue-500">
+                            <button
+                                onClick={() =>
+                                    handleReaction("laugh", post._id)
+                                }
+                                className="flex items-center text-gray-700 hover:text-yellow-500"
+                            >
                                 <FaLaughSquint size={20} className="mr-2" />
-                                <span>{post.likes}</span>
+                                <span>
+                                    {post.reactions?.filter(
+                                        (r) => r.reaction === "laugh"
+                                    ).length || 0}
+                                </span>
                             </button>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ export const getPosts = async (req, res) => {
         const posts = await UserPost.find({}).populate(
             "createdBy",
             "name email picture"
-        );
+        ).populate("reactions", "reactions user");
         // const posts = await UserPost.find({})
         if (!posts) {
             return res.status(404).json({
@@ -157,3 +157,13 @@ export const deletePostById = async (req, res) => {
         console.log(error);
     }
 };
+
+export const addReaction = (req, res) => {
+    try {
+        const { postId, reactType } = req.body
+        
+        console.log(postId, reactType)
+    } catch (error) {
+        console.log(error)
+    }
+}

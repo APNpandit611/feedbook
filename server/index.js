@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5001;
 const _dirname = path.resolve();
 
 const corOption = {
-    origin: ["https://feedbook-48dd.onrender.com"],
+    origin: ["http://localhost:5000"],
     credentials: true,
 };
 
