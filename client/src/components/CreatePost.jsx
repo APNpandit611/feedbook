@@ -80,7 +80,7 @@ const CreatePost = () => {
                     placeholder="How are you feeling? Write here.."
                 />
             </div>
-            <div className="flex items-center justify-between p-3">
+            <div className="flex items-center justify-between p-3 w-full">
                 <div>
                     <label
                         htmlFor="file-upload"
