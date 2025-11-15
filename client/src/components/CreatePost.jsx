@@ -59,68 +59,66 @@ const CreatePost = () => {
     };
 
     return (
-        <div className="flex items-center justify-center">
-            <form
-                onSubmit={submitHandler}
-                className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg p-3 transform transition-all duration-300 ease-in-out flex flex-col gap-2 items-center"
-            >
-                <div className="flex items-center gap-4 w-full border-b border-gray-300 focus:outline-none focus:ring-2 px-3 py-1">
-                    <Avatar className="cursor-pointer">
-                        <AvatarImage
-                            src={
-                                user.picture ?? "https://github.com/shadcn.png"
-                            }
-                            className="w-20 h-3/4 rounded-xl"
-                            alt="@shadcn"
+        <form
+            onSubmit={submitHandler}
+            className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg p-3 transform transition-all duration-300 ease-in-out flex flex-col gap-2 items-center"
+        >
+            <div className="flex items-center gap-4 w-full border-b border-gray-300 focus:outline-none focus:ring-2 px-3 py-1">
+                <Avatar className="cursor-pointer">
+                    <AvatarImage
+                        src={user.picture ?? "https://github.com/shadcn.png"}
+                        className="w-20 h-3/4 rounded-xl"
+                        alt="@shadcn"
+                    />
+                </Avatar>
+                <textarea
+                    name="status"
+                    onChange={inputHandler}
+                    value={input.status}
+                    className="w-full p-3"
+                    type="text"
+                    placeholder="How are you feeling? Write here.."
+                />
+            </div>
+            <div className="flex items-center justify-between p-3">
+                <div>
+                    <label
+                        htmlFor="file-upload"
+                        className="flex items-center gap-2"
+                    >
+                        <img
+                            src="/upload.png"
+                            alt=""
+                            height={30}
+                            width={30}
+                            className="cursor-pointer"
                         />
-                    </Avatar>
-                    <textarea
-                        name="status"
-                        onChange={inputHandler}
-                        value={input.status}
-                        className="w-full p-3"
-                        type="text"
-                        placeholder="How are you feeling? Write here.."
+                        <span className="text-sm cursor-pointer">
+                            Upload a picture
+                        </span>
+                    </label>
+                    <input
+                        id="file-upload"
+                        accept="image/*"
+                        type="file"
+                        name="picture"
+                        onChange={fileInputHandler}
+                        className="hidden"
                     />
                 </div>
-                <div className="flex items-center justify-between p-3">
-                    <div>
-                        <label
-                            htmlFor="file-upload"
-                            className="flex items-center gap-2"
-                        >
-                            <img
-                                src="/upload.png"
-                                alt=""
-                                height={30}
-                                width={30}
-                                className="cursor-pointer"
-                            />
-                            <span className="text-sm cursor-pointer">Upload a picture</span>
-                        </label>
-                        <input
-                            id="file-upload"
-                            accept="image/*"
-                            type="file"
-                            name="picture"
-                            onChange={fileInputHandler}
-                            className="hidden"
-                        />
-                    </div>
-                    {loading ? (
-                        <ButtonSpinner />
-                    ) : (
-                        <Button
-                            className="bg-[#202020] text-white"
-                            variant="outline"
-                            type="submit"
-                        >
-                            Post
-                        </Button>
-                    )}
-                </div>
-            </form>
-        </div>
+                {loading ? (
+                    <ButtonSpinner />
+                ) : (
+                    <Button
+                        className="bg-[#202020] text-white"
+                        variant="outline"
+                        type="submit"
+                    >
+                        Post
+                    </Button>
+                )}
+            </div>
+        </form>
     );
 };
 
