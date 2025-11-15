@@ -106,17 +106,19 @@ const CreatePost = () => {
                         className="hidden"
                     />
                 </div>
-                {loading ? (
-                    <ButtonSpinner />
-                ) : (
-                    <Button
-                        className="bg-[#202020] text-white"
-                        variant="outline"
-                        type="submit"
-                    >
-                        Post
-                    </Button>
-                )}
+                <div>
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button
+                            className="bg-[#202020] text-white"
+                            variant="outline"
+                            type="submit"
+                        >
+                            Post
+                        </Button>
+                    )}
+                </div>
             </div>
         </form>
     );
