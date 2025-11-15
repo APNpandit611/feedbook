@@ -8,7 +8,9 @@ const Home = () => {
         <div>
             <div className="">
                 <Navbar />
-                <CreatePost/>
+                <div className="flex items-center justify-center mt-2">
+                    <CreatePost />
+                </div>
                 <UserPost />
             </div>
         </div>
