@@ -62,7 +62,7 @@ const CreatePost = () => {
         <div className="flex items-center justify-center mx-2 mt-2">
             <form
                 onSubmit={submitHandler}
-                className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg p-3 transform transition-all duration-300 ease-in-out"
+                className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg p-3 transform transition-all duration-300 ease-in-out flex flex-col gap-2 items-center"
             >
                 <div className="flex items-center gap-4 w-full border-b border-gray-300 focus:outline-none focus:ring-2 px-3 py-1">
                     <Avatar className="cursor-pointer">
@@ -83,7 +83,7 @@ const CreatePost = () => {
                         placeholder="How are you feeling? Write here.."
                     />
                 </div>
-                <div className="flex items-center justify-between m-1">
+                <div className="flex items-center justify-between p-3">
                     <div>
                         <label
                             htmlFor="file-upload"
@@ -96,7 +96,7 @@ const CreatePost = () => {
                                 width={30}
                                 className="cursor-pointer"
                             />
-                            <span className="text-sm">Upload a picture</span>
+                            <span className="text-sm cursor-pointer">Upload a picture</span>
                         </label>
                         <input
                             id="file-upload"

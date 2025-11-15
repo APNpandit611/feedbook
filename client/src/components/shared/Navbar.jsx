@@ -77,7 +77,7 @@ const Navbar = () => {
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent>
-                                    <div className="flex items-center gap-3 space-y-1 p-4">
+                                    <div className="flex items-center gap-3 space-y-1 p-3">
                                         <Avatar className="cursor-pointer">
                                             <AvatarImage
                                                 src={user.picture ?? "https://github.com/shadcn.png"}
@@ -95,7 +95,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
 
-                                    <div className="my-3 mx-1">
+                                    <div className="my-3 mx-3">
                                         <div className="flex items-center">
                                             <User2 />
                                             <Button variant="link">
