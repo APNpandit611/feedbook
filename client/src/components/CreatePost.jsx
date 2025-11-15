@@ -84,12 +84,29 @@ const CreatePost = () => {
                     />
                 </div>
                 <div className="flex items-center justify-between m-1">
-                    <input
-                        accept="image/*"
-                        type="file"
-                        name="picture"
-                        onChange={fileInputHandler}
-                    />
+                    <div>
+                        <label
+                            htmlFor="file-upload"
+                            className="flex items-center gap-2"
+                        >
+                            <img
+                                src="/upload.png"
+                                alt=""
+                                height={30}
+                                width={30}
+                                className="cursor-pointer"
+                            />
+                            <span className="text-sm">Upload a picture</span>
+                        </label>
+                        <input
+                            id="file-upload"
+                            accept="image/*"
+                            type="file"
+                            name="picture"
+                            onChange={fileInputHandler}
+                            className="hidden"
+                        />
+                    </div>
                     {loading ? (
                         <ButtonSpinner />
                     ) : (
