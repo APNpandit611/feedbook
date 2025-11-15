@@ -95,7 +95,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
 
-                                    <div className="my-3 mx-3">
+                                    <div className="p-3 flex flex-col gap-2">
                                         <div className="flex items-center">
                                             <User2 />
                                             <Button variant="link">

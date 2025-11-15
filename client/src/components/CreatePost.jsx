@@ -59,7 +59,7 @@ const CreatePost = () => {
     };
 
     return (
-        <div className="flex items-center justify-center mx-2 mt-2">
+        <div className="flex items-center justify-center">
             <form
                 onSubmit={submitHandler}
                 className="w-full md:w-9/12 lg:w-7/12 border border-gray-300 rounded-lg shadow-lg p-3 transform transition-all duration-300 ease-in-out flex flex-col gap-2 items-center"
