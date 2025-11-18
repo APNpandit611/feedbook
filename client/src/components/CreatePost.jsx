@@ -1,9 +1,8 @@
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { USER_POST_API_END_POINT } from "@/utils/constant.js";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/store/loadingSlice";
@@ -26,7 +25,7 @@ const [fileName, setFileName]=useState("")
 
     const fileInputHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] });
-setFileName(e.target.files?.[0].name);
+        setFileName(e.target.files?.[0].name);
     };
 
     const submitHandler = async (e) => {
@@ -35,7 +34,6 @@ setFileName(e.target.files?.[0].name);
         formData.append("status", input.status);
         if (input.file) {
             formData.append("picture", input.file);
-
         }
         try {
             dispatch(setLoading(true));
