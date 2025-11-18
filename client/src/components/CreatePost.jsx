@@ -18,7 +18,7 @@ const CreatePost = () => {
         status: "",
         picture: "",
     });
-const [fileName, setFileName]=usestate("")
+const [fileName, setFileName]=useState("")
 
     const inputHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
