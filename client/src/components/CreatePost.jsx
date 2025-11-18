@@ -26,6 +26,7 @@ const [fileName, setFileName]=useState("")
 
     const fileInputHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] });
+setFileName(input.file.name);
     };
 
     const submitHandler = async (e) => {
@@ -34,7 +35,7 @@ const [fileName, setFileName]=useState("")
         formData.append("status", input.status);
         if (input.file) {
             formData.append("picture", input.file);
-setFileName(input.file.name)
+
         }
         try {
             dispatch(setLoading(true));
