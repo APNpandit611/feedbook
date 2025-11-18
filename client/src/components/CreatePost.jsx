@@ -26,7 +26,7 @@ const [fileName, setFileName]=useState("")
 
     const fileInputHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] });
-setFileName(input.file.name);
+setFileName(e.target.files?.[0].name);
     };
 
     const submitHandler = async (e) => {
