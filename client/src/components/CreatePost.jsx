@@ -18,6 +18,7 @@ const CreatePost = () => {
         status: "",
         picture: "",
     });
+const [fileName, setFileName]=usestate("")
 
     const inputHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -33,6 +34,7 @@ const CreatePost = () => {
         formData.append("status", input.status);
         if (input.file) {
             formData.append("picture", input.file);
+setFileName(input.file.name)
         }
         try {
             dispatch(setLoading(true));
@@ -94,7 +96,7 @@ const CreatePost = () => {
                             className="cursor-pointer"
                         />
                         <span className="text-sm cursor-pointer">
-                            Upload a picture
+                            {fileName || "Upload a picture"}
                         </span>
                     </label>
                     <input
